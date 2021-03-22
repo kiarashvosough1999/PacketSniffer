@@ -14,6 +14,16 @@ class portSniffer:
         self.excuting_thread = []
         self.end = False
 
+    def get_reserved_port(self, port):
+        dic = {'ftp': [21], 'telnet': [23], 'ssh': [22], 'http': [80,443], 'smtp': [25, 465, 587]}
+        for key, value in dic.items():
+            if value.__contains__(port):
+                return key
+        return ''
+
+    def get_reserved_ports(self):
+        return [21, 22, 23, 80, 25, 265, 287, 443]
+
     def start(self):
         while True:
             count = 0
@@ -41,22 +51,23 @@ class portSniffer:
             thread.daemon = True
             self.excuting_thread.append(thread)
             thread.start()
-            thread.join(1)
+            thread.join(0.1)
 
     def check(self, port):
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             flag = sock.connect_ex((self.address, port))
             if flag == 0:
-                print("Port {} is open".format(port))
-            else:
-                print("Port {} is not open".format(port))
+                if self.get_reserved_ports().__contains__(port):
+                    print("Port {} is open with {}".format(port,self.get_reserved_port(port)))
+                else:
+                    print("Port {} is open".format(port))
             sock.close()
         except socket.gaierror:
-            print("\n Hostname Could Not Be Resolved !!!!")
+            print("Hostname Could Not Be Resolved !!!!")
             return
         except socket.error:
-            print("\nServer not responding !!!!")
+            print("Server not responding !!!!")
             return
         except KeyboardInterrupt:
             exit(0)
