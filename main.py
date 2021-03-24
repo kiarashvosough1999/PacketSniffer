@@ -12,12 +12,12 @@ import socket
 
 #     # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # try:
-        x = portSniffer(socket.gethostbyname('142.250.179.206'), customRange(437, 450), 2, 6)
+    try:
+        x = portSniffer(socket.gethostbyname('142.250.179.206'), customRange(70, 450), 2, 6)
         x.start()
-    # except KeyboardInterrupt:
-    #     print('\tInterrupted')
-    #     sys.exit(0)
+    except KeyboardInterrupt:
+        print('\tInterrupted')
+        sys.exit(0)
 
     # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # flag = sock.connect_ex(('uk2.sshagan.us', 22))
@@ -29,10 +29,11 @@ if __name__ == '__main__':
 
     # print(socket.getaddrinfo("www.python.org", 80, 0, 0, socket.SOL_TCP))
 
-    # hostname = 'vu.um.ac.ir'
+    # conn = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0806))
+    # hostname = 'www.python.org'
     # context = ssl.create_default_context()
     #
-    # with socket.create_connection(('uk2.sshagan.us', 443)) as sock:
+    # with socket.create_connection((hostname, 443)) as sock:
+    #     print(sock.proto)
     #     with context.wrap_socket(sock, server_hostname=hostname) as ssock:
     #         print(ssock.version())
-
