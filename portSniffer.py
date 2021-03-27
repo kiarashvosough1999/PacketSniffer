@@ -6,13 +6,10 @@ from Utilities.portManager import reservedPortServices
 
 class portSniffer:
 
-    def __init__(self, address, portRange, waitingTime, threadNum):
-        self.address = str(address)
-        self.portRange = portRange
-        # self.waitingTime = waitingTime
-        self.threadNum = threadNum
-        self.last_port_check_attemp = portRange.start
-        socket.setdefaulttimeout(waitingTime)
+    def __init__(self, port_data_model):
+        self.port_data_model = port_data_model
+        self.last_port_check_attemp = port_data_model.portRange.start
+        socket.setdefaulttimeout(port_data_model.waitingTime)
         self.excuting_thread = []
         self.end = False
 
@@ -30,13 +27,13 @@ class portSniffer:
 
     def execute_check_procedure(self):
 
-        end = self.last_port_check_attemp + self.threadNum
+        end = self.last_port_check_attemp + self.port_data_model.thread_number
         start = self.last_port_check_attemp
-        if end > self.portRange.end:
-            end = self.portRange.end + 1
+        if end > self.port_data_model.portRange.end:
+            end = self.port_data_model.portRange.end + 1
             self.end = True
 
-        self.last_port_check_attemp += self.threadNum
+        self.last_port_check_attemp += self.port_data_model.thread_number
 
         for port in range(start, end):
             thread = Thread(target=self.check, args=(port,))
@@ -48,7 +45,7 @@ class portSniffer:
     def check(self, port):
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            flag = sock.connect_ex((self.address, port))
+            flag = sock.connect_ex((self.port_data_model.address, port))
             if flag == 0:
                 if reservedPortServices.contains_port(port):
                     print("Port {} is open with {}".format(port,reservedPortServices.get_name([port])))
