@@ -51,6 +51,8 @@ class portSniffer:
                     print("Port {} is open with {}".format(port,reservedPortServices.get_name([port])))
                 else:
                     print("Port {} is open".format(port))
+            else:
+                print("Port {} is not open".format(port))
             sock.close()
         except socket.gaierror:
             print("Hostname Could Not Be Resolved !!!!")

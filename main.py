@@ -9,17 +9,18 @@ port_data_model = None
 if __name__ == '__main__':
 
     print('enter your input in the folowing format')
-    print('Address -space- '
-          'Thread Number'
-          ' -space-'
-          ' Port Scanning Waiting Time'
-          ' -space-'
-          ' Port Start Interval'
-          ' -space- '
-          'Port End Interval')
 
     while True:
-        address, thread_num, waiting_time, start, end = input()
+        print('Address: ')
+        address = input()
+        print('Thread Number: ')
+        thread_num = input()
+        print('Port Scanning Waiting Time: ')
+        waiting_time = input()
+        print('Port Start Interval: ')
+        start = input()
+        print('Port End Interval: ')
+        end = input()
 
         if int(thread_num) and float(waiting_time) and int(start) and int(end):
             port_data_model = PortScanningModel(address=address,
