@@ -1,13 +1,5 @@
-
-from Utilities.customRange import customRange
-from portSniffer import portSniffer
-import sys
-import socket
+# PortScanningModel(socket.gethostbyname('142.250.179.206'), 2, customRange(70, 450),1)
+from Utilities.AppStartManager import AppStartManager
 
 if __name__ == '__main__':
-    try:
-        x = portSniffer(socket.gethostbyname('142.250.179.206'), customRange(70, 450), 2, 6)
-        x.start()
-    except KeyboardInterrupt:
-        print('\tInterrupted')
-        sys.exit(0)
+    AppStartManager().start()
