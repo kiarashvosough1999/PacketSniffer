@@ -1,7 +1,7 @@
 import sys
 from DataModels.PortScanningModel import PortScanningModel
 from Utilities.customRange import customRange
-from portSniffer import portSniffer
+from portSniffer import portSniffer, portSniffingTask
 
 
 class AppStartManager:
@@ -31,6 +31,7 @@ class AppStartManager:
         if status == 0:
             print(error_message)
             exit(status)
+        self.start_port_sniffing()
 
     def run_in_IDE(self):
         print('enter your input ->')
@@ -54,6 +55,8 @@ class AppStartManager:
             if status == 0:
                 print(error_message)
                 continue
+            else:
+                break
         self.start_port_sniffing()
 
     def validate_userInput(self, address, thread_num, waiting_time, start, end):
@@ -61,7 +64,8 @@ class AppStartManager:
             self.port_data_model = PortScanningModel(address=address,
                                                      thread_number=int(thread_num),
                                                      portRange=customRange(int(start), int(end)),
-                                                     waitingTime=float(waiting_time))
+                                                     waitingTime=float(waiting_time),
+                                                     task_type=portSniffingTask.application_port)
             if self.port_data_model.valid_ip_type():
                 return '', 1
             else:
