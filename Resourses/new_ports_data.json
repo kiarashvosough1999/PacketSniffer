@@ -757,7 +757,7 @@
     },
     {
         "description": "cft-1 to cft-7",
-        "port": "1762\u20131768",
+        "port": "1762",
         "status": "Official",
         "tcp": true,
         "udp": true
@@ -1401,7 +1401,7 @@
     },
     {
         "description": "KnowShowGo P2P",
-        "port": "2700\u20132800",
+        "port": "2700",
         "status": "Official",
         "tcp": true,
         "udp": false
@@ -2080,7 +2080,7 @@
     },
     {
         "description": "Microsoft Silverlight connectable ports under non-elevated trust",
-        "port": "4502-4534",
+        "port": "4502",
         "status": "Official",
         "tcp": true,
         "udp": false
@@ -3032,7 +3032,7 @@
     },
     {
         "description": "Internet Relay Chat (IRC)",
-        "port": "6665\u20136669",
+        "port": "6665",
         "status": "Official",
         "tcp": true,
         "udp": false
@@ -3242,7 +3242,7 @@
     },
     {
         "description": "GFI EventsManager 7 & 8[citation needed]",
-        "port": "7787-7788",
+        "port": "7787",
         "status": "Official",
         "tcp": true,
         "udp": false
@@ -3256,7 +3256,7 @@
     },
     {
         "description": "EMC2 (Legato) Networker or Sun Solstice Backup",
-        "port": "7937-9936",
+        "port": "7937",
         "status": "Official",
         "tcp": true,
         "udp": true

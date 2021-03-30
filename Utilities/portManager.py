@@ -35,7 +35,7 @@ class reservedPortServices(Enum):
             read_file = open(file_name, 'r')
         except OSError:
             print("Could not open/read file:", file_name)
-            sys.exit()
+            sys.exit(0)
 
         with read_file:
             return json.load(read_file, object_hook=reservedPortServices.decode_portModel)

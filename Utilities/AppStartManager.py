@@ -34,6 +34,8 @@ class AppStartManager:
         self.start_port_sniffing()
 
     def run_in_IDE(self):
+        end = '1'
+        start = '1'
         print('enter your input ->')
         while True:
             print('Address: ')
@@ -44,10 +46,11 @@ class AppStartManager:
             waiting_time = input()
             print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
             type = input()
-            print('Port Start Interval: ')
-            start = input()
-            print('Port End Interval: ')
-            end = input()
+            if type == '1':
+                print('Port Start Interval: ')
+                start = input()
+                print('Port End Interval: ')
+                end = input()
 
             error_message, status = self.validate_userInput(address=address,
                                                             thread_num=thread_num,
@@ -68,7 +71,7 @@ class AppStartManager:
                 float(waiting_time) and\
                 int(start) and\
                 int(end) and\
-                mtype is not portSniffingTask.error:
+                (mtype is not portSniffingTask.error):
 
             self.port_data_model = PortScanningModel(address=address,
                                                      thread_number=int(thread_num),
