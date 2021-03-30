@@ -42,6 +42,8 @@ class AppStartManager:
             thread_num = input()
             print('Port Scanning Waiting Time: ')
             waiting_time = input()
+            print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
+            type = input()
             print('Port Start Interval: ')
             start = input()
             print('Port End Interval: ')
@@ -51,7 +53,8 @@ class AppStartManager:
                                                             thread_num=thread_num,
                                                             waiting_time=waiting_time,
                                                             start=start,
-                                                            end=end)
+                                                            end=end,
+                                                            type=type)
             if status == 0:
                 print(error_message)
                 continue
@@ -59,13 +62,19 @@ class AppStartManager:
                 break
         self.start_port_sniffing()
 
-    def validate_userInput(self, address, thread_num, waiting_time, start, end):
-        if int(thread_num) and float(waiting_time) and int(start) and int(end):
+    def validate_userInput(self, address, thread_num, waiting_time, start, end, type):
+        mtype = portSniffingTask.get_type(type)
+        if int(thread_num) and\
+                float(waiting_time) and\
+                int(start) and\
+                int(end) and\
+                mtype is not portSniffingTask.error:
+
             self.port_data_model = PortScanningModel(address=address,
                                                      thread_number=int(thread_num),
                                                      portRange=customRange(int(start), int(end)),
                                                      waitingTime=float(waiting_time),
-                                                     task_type=portSniffingTask.application_port)
+                                                     task_type=mtype)
             if self.port_data_model.valid_ip_type():
                 return '', 1
             else:
