@@ -1,7 +1,7 @@
 import sys
 from DataModels.PortScanningModel import PortScanningModel
 from Utilities.customRange import customRange
-from portSniffer import portSniffer
+from portSniffer import portSniffer, portSniffingTask
 
 
 class AppStartManager:
@@ -31,8 +31,11 @@ class AppStartManager:
         if status == 0:
             print(error_message)
             exit(status)
+        self.start_port_sniffing()
 
     def run_in_IDE(self):
+        end = '1'
+        start = '1'
         print('enter your input ->')
         while True:
             print('Address: ')
@@ -41,27 +44,40 @@ class AppStartManager:
             thread_num = input()
             print('Port Scanning Waiting Time: ')
             waiting_time = input()
-            print('Port Start Interval: ')
-            start = input()
-            print('Port End Interval: ')
-            end = input()
+            print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
+            type = input()
+            if type == '1':
+                print('Port Start Interval: ')
+                start = input()
+                print('Port End Interval: ')
+                end = input()
 
             error_message, status = self.validate_userInput(address=address,
                                                             thread_num=thread_num,
                                                             waiting_time=waiting_time,
                                                             start=start,
-                                                            end=end)
+                                                            end=end,
+                                                            type=type)
             if status == 0:
                 print(error_message)
                 continue
+            else:
+                break
         self.start_port_sniffing()
 
-    def validate_userInput(self, address, thread_num, waiting_time, start, end):
-        if int(thread_num) and float(waiting_time) and int(start) and int(end):
+    def validate_userInput(self, address, thread_num, waiting_time, start, end, type):
+        mtype = portSniffingTask.get_type(type)
+        if int(thread_num) and\
+                float(waiting_time) and\
+                int(start) and\
+                int(end) and\
+                (mtype is not portSniffingTask.error):
+
             self.port_data_model = PortScanningModel(address=address,
                                                      thread_number=int(thread_num),
                                                      portRange=customRange(int(start), int(end)),
-                                                     waitingTime=float(waiting_time))
+                                                     waitingTime=float(waiting_time),
+                                                     task_type=mtype)
             if self.port_data_model.valid_ip_type():
                 return '', 1
             else:

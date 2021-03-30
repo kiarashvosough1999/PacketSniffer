@@ -3,12 +3,13 @@ import socket
 
 class PortScanningModel:
 
-    def __init__(self, address, thread_number, portRange, waitingTime):
+    def __init__(self, address, thread_number, portRange, waitingTime, task_type):
         self.address = address
         self.thread_number = thread_number
         self.portRange = portRange
         self.waitingTime = waitingTime
         self.ip_type = 0
+        self.task_type = task_type
 
     def valid_ip_type(self):
         try:
