@@ -2,7 +2,7 @@ import socket
 from threading import Thread
 from Utilities.portManager import reservedPortServices
 from DataModels.portModel import portModel
-from Utilities.portSniffingTask import portSniffingTask
+from Utilities.portSniffingMode import portSniffingMode
 
 
 class portSniffer:
@@ -14,7 +14,7 @@ class portSniffer:
         self.excuting_thread = []
         self.end = False
         self.thread_queue = []
-        self.task_type = port_data_model.task_type
+        self.task_type = port_data_model.sniffing_mode
         self.opened_port = 0
 
     def prompt_after_compeletion(self):
@@ -24,7 +24,11 @@ class portSniffer:
             print('no open ports in selcted mode found')
 
     def start(self):
-        self.create_task()
+        if self.port_data_model.is_range_defined():
+            self.create_task()
+        else:
+            self.create_task_without_range_defined()
+
         while self.thread_queue:
             count = 0
             for thread in self.excuting_thread:
@@ -38,17 +42,40 @@ class portSniffer:
                 self.execute_check_procedure()
 
     def create_task(self):
-        if self.task_type == portSniffingTask.all_port:
+        if self.task_type == portSniffingMode.all_port:
+            for port in range(0, 65535):
+                if port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
+                    self.thread_queue.append(portModel('', port, '', True, False))
+
+        elif self.task_type == portSniffingMode.reserved_port:
+            for port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
+                if port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
+                    self.thread_queue.append(portModel('', port, '', True, False))
+
+            for port in reservedPortServices.get_all_reserved_port():
+                if port.port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
+                    self.thread_queue.append(port)
+
+        elif self.task_type == portSniffingMode.application_port:
+            for port in reservedPortServices.get_port_model():
+                if port.port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
+                    self.thread_queue.append(port)
+        if len(self.thread_queue) == 0:
+            exit(0)
+
+    def create_task_without_range_defined(self):
+        if self.task_type == portSniffingMode.all_port:
             for port in range(0, 65535):
                 self.thread_queue.append(portModel('', port, '', True, False))
 
-        elif self.task_type == portSniffingTask.reserved_port:
+        elif self.task_type == portSniffingMode.reserved_port:
             for port in range(self.port_data_model.portRange.start, self.port_data_model.portRange.end):
                 self.thread_queue.append(portModel('', port, '', True, False))
+
             for port in reservedPortServices.get_all_reserved_port():
                 self.thread_queue.append(port)
 
-        elif self.task_type == portSniffingTask.application_port:
+        elif self.task_type == portSniffingMode.application_port:
             for port in reservedPortServices.get_port_model():
                 self.thread_queue.append(port)
 
@@ -66,14 +93,16 @@ class portSniffer:
 
     def check(self, port_model):
         try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            flag = sock.connect_ex((self.port_data_model.address, port_model.port))
+            sock = socket.socket(self.port_data_model.ip_version, socket.SOCK_STREAM)
+            connection_param = self.port_data_model.get_connect_param(port_model.port)
+            flag = sock.connect_ex(connection_param)
             if flag == 0:
                 self.opened_port += 1
                 if reservedPortServices.contains_port(port_model.port):
-                    print("Port {} is open with {}".format(port_model.port, port_model.description))
+                    print("Port {} is open with {} and {}".format(port_model.port, port_model.description,
+                                                                  self.port_data_model.__str__()))
                 else:
-                    print("Port {} is open".format(port_model.port))
+                    print("Port {} is open {}".format(port_model.port, self.port_data_model.__str__()))
             sock.close()
         except socket.gaierror:
             print("Hostname Could Not Be Resolved !!!!")
