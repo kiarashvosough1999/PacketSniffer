@@ -30,16 +30,16 @@ class AppStartManager:
         if type == '1':
             start = self.sys_argv[5]
             end = self.sys_argv[6]
-            if self.sys_argv[7]:
+            if len(self.sys_argv) == 8:
                 ip_version = AppStartManager.validate_ip_version(self.sys_argv[7])
             else:
                 ip_version = socket.AF_INET
         else:
-            if self.sys_argv[7]:
-                ip_version = AppStartManager.validate_ip_version(self.sys_argv[5])
+            if len(self.sys_argv) == 6:
+                pass
+                ip_version = self.sys_argv[5]
             else:
-                ip_version = socket.AF_INET
-
+                ip_version = '4'
         error_message, status = self.validate_userInput(address=address,
                                                         thread_num=thread_num,
                                                         waiting_time=waiting_time,
@@ -65,43 +65,46 @@ class AppStartManager:
     def run_in_IDE(self):
         end = '1'
         start = '1'
-        print('enter your input ->')
-        while True:
-            print('Address: ')
-            address = input()
+        try:
+            print('enter your input ->')
+            while True:
+                print('Address: ')
+                address = input()
 
-            print('Thread Number: ')
-            thread_num = input()
+                print('Thread Number: ')
+                thread_num = input()
 
-            print('Port Scanning Waiting Time: ')
-            waiting_time = input()
+                print('Port Scanning Waiting Time: ')
+                waiting_time = input()
 
-            print('ip Address vesrion: 4.ipV4 6.ipV6 (default is ipV4, to ignore just press enter)')
-            ip_version = input()
-            if ip_version != '4' or ip_version != '6':
-                ip_version = '4'
+                print('ip Address vesrion: 4.ipV4 6.ipV6 (default is ipV4, to ignore just press enter)')
+                ip_version = input()
+                if ip_version != '4' or ip_version != '6':
+                    ip_version = '4'
 
-            print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
-            type = input()
+                print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
+                type = input()
 
-            if type == '1':
-                print('Port Start Interval: ')
-                start = input()
-                print('Port End Interval: ')
-                end = input()
+                if type == '1':
+                    print('Port Start Interval: ')
+                    start = input()
+                    print('Port End Interval: ')
+                    end = input()
 
-            error_message, status = self.validate_userInput(address=address,
-                                                            thread_num=thread_num,
-                                                            waiting_time=waiting_time,
-                                                            start=start,
-                                                            end=end,
-                                                            type=type,
-                                                            ip_version=ip_version)
-            if status == 0:
-                print(error_message)
-                continue
-            else:
-                break
+                error_message, status = self.validate_userInput(address=address,
+                                                                thread_num=thread_num,
+                                                                waiting_time=waiting_time,
+                                                                start=start,
+                                                                end=end,
+                                                                type=type,
+                                                                ip_version=ip_version)
+                if status == 0:
+                    print(error_message)
+                    continue
+                else:
+                    break
+        except KeyboardInterrupt:
+            print('exit from program')
         self.start_port_sniffing()
 
     def validate_userInput(self, address, thread_num, waiting_time, start, end, type, ip_version):
