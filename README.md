@@ -5,39 +5,51 @@ control over your network statistics.
 
 ## Run On Terminal
 
-Use ' python3' command to execute program.
+Use 'python3' command to execute program.
+```bash
+python3 path_to/main.py
+```
 
 ## Arguments that you can pass
 
-- address : the IP (v4 or v6) that you wish to sniff on.
-- thread_num : number of threads that the program can use to complete its tasks.
-- waiting_time : time (in second) that program wait to get response back from the server.
-- sniffing modes: port rang or specific set of port that can be sniffed.
-- start : start value of port interval that program will check.
-- end : end value of port interval that program will check.
-- ip Vesrion: ipV6 and ipV4 are supported.
+- **Address** : the IP (v4 or v6) that you wish to sniff on. you can pass ip address or host name plus its domain.
+- **Thread number** : number of threads (*_there is also a limit that we prompt before you enter your inputs_*) that the program can use to complete its tasks.
+- **waiting time** : time (in second) that program wait to get response back from the server for each port.
+- **sniffing modes** : port range for specific set of port that can be sniffed.
+- **start** : start value of port interval that program will check(**optional**).
+- **end** : end value of port interval that program will check(**optional**).
+- **ip Vesrion** : ipV6 and ipV4 are supported(**default is set on ipV4**).
+
+> you can skip optional inputs it by just pressing enter.
+>
+> you can skip port interval input by pressing enter so that program check evety port on that mode.
 
 ## Sniffing Modes
+1. All Ports (0-65535)
+2. Reserved Port (including a varity of popular port from host around the world)
+3. application layer services (TELNET, FTP, SSH, HTTP, HTTP_TLS, SMTP, SMTP_TLS, POP, IMAP, POP_TLS, IMAP_TLS)
 
-1.All Ports (0-65535)
-2.Reserved Port (including a varity of popular port from host around the world)
-3.application layer services (TELNET, FTP, SSH, HTTP, HTTP_TLS, SMTP, SMTP_TLS, POP, IMAP, POP_TLS, IMAP_TLS)
+## Passing Arguments Examples
 
-## Passing Arguments
 
-Method 1: pass in python argv.
 ```bash
-python3 address thread_num waiting_time sniffingMode start(optional in some cases) end(optional in some cases) ipVesrion(default is 4)
+You can run 10000 threads concurently, do not try to hit the limit unless there is no guarantee to work properly.
+Address: 
+>> www.google.com
+Thread Number:
+>> 5000
+Port Scanning Waiting Time:
+>> 1 
+ip Address version: 4.ipV4 6.ipV6 (default is ipV4, to ignore just press enter)
+>> 4
+Choose your sniffing mode: 1.App Ports  2.Reserved Port  3.application layer services
+>> 3
+Port Start Interval: 
+>> 200
+Port End Interval: 
+>> 1000
 ```
-Method 2: pass nothing as argv and the program will prompt and ask you for your inputs.
-```bash
-python3 [path_to_main.py]
-```
-## Examples
-this will check google.com host with 4 thread and 1 second as timeout for checking each port between 50 and 1000 with ipV4.
-```bash
-python3 google.com 4 1 1 50 1000 4
-```
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
