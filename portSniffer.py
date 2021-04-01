@@ -66,14 +66,15 @@ class portSniffer:
 
     def check(self, port_model):
         try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            flag = sock.connect_ex((self.port_data_model.address, port_model.port))
+            sock = socket.socket(self.port_data_model.ip_version, socket.SOCK_STREAM)
+            connection_param = self.port_data_model.get_connect_param(port_model.port)
+            flag = sock.connect_ex(connection_param)
             if flag == 0:
                 self.opened_port += 1
                 if reservedPortServices.contains_port(port_model.port):
-                    print("Port {} is open with {}".format(port_model.port, port_model.description))
+                    print("Port {} is open with {} and {}".format(port_model.port, port_model.description, self.port_data_model.__str__()))
                 else:
-                    print("Port {} is open".format(port_model.port))
+                    print("Port {} is open {}".format(port_model.port, self.port_data_model.__str__()))
             sock.close()
         except socket.gaierror:
             print("Hostname Could Not Be Resolved !!!!")
