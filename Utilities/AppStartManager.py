@@ -84,7 +84,7 @@ class AppStartManager:
                 print('Port Scanning Waiting Time: ')
                 waiting_time = input()
 
-                print('ip Address vesrion: 4.ipV4 6.ipV6 (default is ipV4, to ignore just press enter)')
+                print('ip Address version: 4.ipV4 6.ipV6 (default is ipV4, to ignore just press enter)')
                 check_ip_version = input()
                 if not check_ip_version:
                     check_ip_version = '4'
