@@ -7,12 +7,12 @@ control over your network statistics.
 
 Use ' python3' command to execute program.
 
-:
-## Arguments that ypu can pass
+## Arguments that you can pass
 
 - address : the IP (v4 or v6) that you wish to sniff on.
 - thread_num : number of threads that the program can use to complete its tasks.
 - waiting_time : time (in second) that program wait to get response back from the server.
+- sniffing mode: port rang or specific set of port that can be sniffed.
 - start : start value of port interval that program will check.
 - end : end value of port interval that program will check.
 
