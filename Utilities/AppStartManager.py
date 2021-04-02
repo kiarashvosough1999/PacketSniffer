@@ -17,6 +17,16 @@ class AppStartManager:
         self.max_thread = 10000
 
     def start(self):
+        self.start_new_procces_to_get_max_threads()
+        print('You can run {} threads concurently, do not try to hit the limit unless there is no guarantee to work '
+              'properly'.format(self.max_thread))
+        # if len(self.sys_argv) > 1:
+        #     self.run_on_terminal()
+        #     self.start_port_sniffing()
+        # else:
+        self.run_in_interactive()
+
+    def start_new_procces_to_get_max_threads(self):
         parent_conn, child_conn = Pipe()
         p = Process(target=AppStartManager.get_max_thread_on_machine, args=(child_conn,))
         p.start()
@@ -26,13 +36,6 @@ class AppStartManager:
                 self.max_thread = re
                 p.terminate()
                 break
-        print('You can run {} threads concurently, donot try to hit the limit unless there is no guarantee to work '
-              'properly'.format(self.max_thread))
-        # if len(self.sys_argv) > 1:
-        #     self.run_on_terminal()
-        #     self.start_port_sniffing()
-        # else:
-        self.run_in_interactive()
 
     @staticmethod
     def get_max_thread_on_machine(pipe):
