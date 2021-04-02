@@ -2,7 +2,7 @@ import socket
 import sys
 import threading
 import time
-
+from multiprocessing import Process, Pipe
 from DataModels.PortScanningModel import PortScanningModel
 from Utilities.MyExceptions import MyExeption
 from Utilities.ValidationManager import ValidationManager
@@ -14,10 +14,18 @@ class AppStartManager:
     def __init__(self):
         self.sys_argv = sys.argv
         self.port_data_model = None
-        self.max_thread = 0
+        self.max_thread = 10000
 
     def start(self):
-        self.get_max_thread_on_machine()
+        parent_conn, child_conn = Pipe()
+        p = Process(target=AppStartManager.get_max_thread_on_machine, args=(child_conn,))
+        p.start()
+        while True:
+            re = parent_conn.recv()
+            if re != 0:
+                self.max_thread = re
+                p.terminate()
+                break
         print('You can run {} threads concurently, donot try to hit the limit unless there is no guarantee to work '
               'properly'.format(self.max_thread))
         # if len(self.sys_argv) > 1:
@@ -26,7 +34,8 @@ class AppStartManager:
         # else:
         self.run_in_interactive()
 
-    def get_max_thread_on_machine(self):
+    @staticmethod
+    def get_max_thread_on_machine(pipe):
         threads = 0
         y = 1000000
         for i in range(y):
@@ -36,7 +45,8 @@ class AppStartManager:
                 x.start()
             except RuntimeError:
                 break
-        self.max_thread = threads
+        pipe.send(threads)
+        pipe.close()
 
     # def run_on_terminal(self):
     #     global ip_version
@@ -89,7 +99,7 @@ class AppStartManager:
                 if not check_ip_version:
                     check_ip_version = '4'
 
-                print('Choose your sniffing mode: 1.App Ports\t 2.Reserved Port\t 3.application layer services')
+                print('Choose your sniffing mode: 1.All Ports\t 2.Reserved Port\t 3.application layer services')
                 sniffing_mode = input()
 
                 print('Port Start Interval: ')
@@ -110,7 +120,8 @@ class AppStartManager:
                                                                        start=start,
                                                                        end=end,
                                                                        sniffing_mode=sniffing_mode,
-                                                                       ip_version=check_ip_version)
+                                                                       ip_version=check_ip_version,
+                                                                       max_thread=self.max_thread)
                     self.port_data_model = PortScanningModel(mAddress,
                                                              mThread_num,
                                                              custom_range,
