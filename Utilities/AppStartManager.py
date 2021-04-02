@@ -122,7 +122,7 @@ class AppStartManager:
                     print(e.message)
                     continue
                 except socket.gaierror or socket.error:
-                    print('there is somthing wrong with your network connection try again later.')
+                    print('there is something wrong with your network connection try again later.')
                     print("Hostname Could Not Be Resolved !!!!")
                     print("Server not responding!")
                     sys.exit(0)
@@ -136,5 +136,5 @@ class AppStartManager:
             x = portSniffer(port_data_model=self.port_data_model)
             x.start()
         except KeyboardInterrupt:
-            print('\tKeyborad Interrupted')
+            print('\tKeyboard Interrupted')
             sys.exit(0)
