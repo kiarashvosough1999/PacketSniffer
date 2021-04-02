@@ -10,7 +10,7 @@ Use 'python3' command to execute program.
 python3 path_to/main.py
 ```
 
-## Arguments that you can pass
+## Arguments That You Can Pass
 
 - **Address** : the IP (v4 or v6) that you wish to sniff on. you can pass ip address or host name plus its domain.
 - **Thread number** : number of threads (*_there is also a limit that we prompt before you enter your inputs_*) that the program can use to complete its tasks.

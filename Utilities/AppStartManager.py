@@ -19,7 +19,7 @@ class AppStartManager:
     def start(self):
         self.get_max_thread_on_machine()
         print('You can run {} threads concurently, donot try to hit the limit unless there is no guarantee to work '
-              'properly')
+              'properly'.format(self.max_thread))
         # if len(self.sys_argv) > 1:
         #     self.run_on_terminal()
         #     self.start_port_sniffing()
