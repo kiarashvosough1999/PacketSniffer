@@ -40,9 +40,9 @@ class reservedPortServices(Enum):
         with read_file:
             return json.load(read_file, object_hook=reservedPortServices.decode_portModel)
 
-    @staticmethod
-    def get_name(ports):
-        return reservedPortServices(ports).name
+    # @staticmethod
+    # def get_name(ports):
+    #     return reservedPortServices(ports).name
 
     @classmethod
     def get_port_model(cls):
