@@ -10,7 +10,7 @@ Use 'python3' command to execute program.
 python3 path_to/main.py
 ```
 
-## Arguments that you can pass
+## Arguments That You Can Pass
 
 - **Address** : the IP (v4 or v6) that you wish to sniff on. you can pass ip address or host name plus its domain.
 - **Thread number** : number of threads (*_there is also a limit that we prompt before you enter your inputs_*) that the program can use to complete its tasks.
@@ -20,9 +20,9 @@ python3 path_to/main.py
 - **end** : end value of port interval that program will check(**optional**).
 - **ip Vesrion** : ipV6 and ipV4 are supported(**default is set on ipV4**).
 
-> you can skip optional inputs it by just pressing enter.
+> *_you can skip optional inputs it by just pressing enter._*
 >
-> you can skip port interval input by pressing enter so that program check evety port on that mode.
+> *_you can skip port interval input by pressing enter so that program check evety port on that mode._*
 
 ## Sniffing Modes
 1. All Ports (0-65535)
