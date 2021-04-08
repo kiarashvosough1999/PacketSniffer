@@ -25,7 +25,6 @@ class AppStartManager:
               'properly'.format(self.max_thread))
         if len(self.sys_argv) > 1:
             self.run_on_terminal()
-            self.start_port_sniffing()
         else:
             self.run_in_()
 
