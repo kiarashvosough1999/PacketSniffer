@@ -8,6 +8,7 @@ control over your network statistics.
 Use 'python3' command to execute program.
 ```bash
 python3 path_to/main.py
+python3 path_to/main.py [-h] [-wt WAITTIME] [-tc THREADCOUNT] [-ip IPVER] [-sp STARTPORT] [-ep ENDPORT] address mode
 ```
 
 ## Arguments That You Can Pass
@@ -23,6 +24,8 @@ python3 path_to/main.py
 > *_you can skip optional inputs it by just pressing enter._*
 >
 > *_you can skip port interval input by pressing enter so that program check evety port on that mode._*
+>
+> *_if you pass argument directly in front of main.py make sure you provide address and sniffing mode which are required, other parameters are optional and have default value._*
 
 ## Sniffing Modes
 1. All Ports (0-65535)
@@ -31,8 +34,13 @@ python3 path_to/main.py
 
 ## Passing Arguments Examples
 
+###Method 1
+
+You just need to execute main.py.
 
 ```bash
+python3 path_to/main.py
+
 You can run 10000 threads concurently, do not try to hit the limit unless there is no guarantee to work properly.
 Address: 
 >> www.google.com
@@ -50,6 +58,18 @@ Port End Interval:
 >> 1000
 ```
 
+###Method 2
+
+You can execute main.py and provide arguments in front of it, first two arguments are required, but the rest of them are optional.
+
+- **Thread number** : default is set to 10.
+- **waiting time** : default is set to 2.
+- **start, end** : default is set to None which means program will check all ports.
+- **ip Vesrion** : default is set to ipV4.
+
+```bash
+python3 path_to/main.py google.com 3 -wt 2 -tc 20 -ip 4 -sp 1 -ep 0
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
