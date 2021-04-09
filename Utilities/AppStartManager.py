@@ -66,7 +66,6 @@ class AppStartManager:
                                    help='end port interval', default= '')
 
             args = my_parser.parse_args()
-            print(args)
             try:
                 mAddress, \
                 mSniffing_mode, \
