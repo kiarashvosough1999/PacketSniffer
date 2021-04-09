@@ -1,5 +1,4 @@
 import socket
-
 from Utilities.MyExceptions import ExeptionAction, MyExeption
 from Utilities.customRange import customRange
 from Utilities.portSniffingMode import portSniffingMode
@@ -46,12 +45,18 @@ class ValidationManager:
             else:
                 mStart = safe_cast(start, int, 'start')
                 mEnd = safe_cast(end, int, 'end')
+                if mStart <= 0 or mEnd <= 0:
+                    raise MyExeption('selected range {}-{} is not valid'.format(mStart, mEnd))
             mSniffing_mode = portSniffingMode.get_type(sniffing_mode)
             mThread_num = safe_cast(thread_num, int, 'thread number')
+            if mThread_num < 1:
+                raise MyExeption('thread number is not valid, at least one thread should be applied')
             if mThread_num >= max_thread:
                 raise MyExeption('your computer only support {} thread concurently!!!'.format(max_thread))
 
             mWaiting_time = safe_cast(waiting_time, int, 'waiting time')
+            if mWaiting_time <= 0:
+                raise MyExeption('waiting time can not be 0 or less than 0')
             mIP_version = ValidationManager.validate_ip_version(ip_version)
             mAddress = ValidationManager.valid_ip_format(address, mIP_version)
 
