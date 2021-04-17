@@ -1,5 +1,5 @@
 import socket
-from DataModels.portModel import portModel
+from DataModels.PortModel import portModel
 from Utilities.portManager import reservedPortServices
 from Utilities.portSniffingMode import portSniffingMode
 
