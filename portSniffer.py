@@ -1,6 +1,7 @@
 import socket
 from threading import Thread
-from Utilities.ThreadingUtilities import ThreadingUtilities
+
+from Utilities.Threading.PrintThread import PrintThread
 from Utilities.portManager import reservedPortServices
 
 
@@ -13,17 +14,15 @@ class portSniffer:
         self.ports_queue = []
         self.sniffing_mode = port_data_model.sniffing_mode
         self.open_ports = 0
-        self.print_thread = ThreadingUtilities()
 
     def prompt_after_compeletion(self):
         if self.open_ports > 0:
-            print('{} port{} opend'.format(self.open_ports, ' was' if self.open_ports <= 1 else 's were', ))
+            PrintThread.shared().append_to_message('{} port{} opend'.format(self.open_ports, ' was' if self.open_ports <= 1 else 's were', ))
         else:
-            print('no open ports in selcted mode found')
+            PrintThread.shared().append_to_message('no open ports in selcted mode found')
 
     def start(self):
         self.ports_queue = self.port_data_model.get_ports_by_mode()
-        self.print_thread.start_print_thread()
         while self.ports_queue:
             count = 0
             for thread in self.executing_thread:
@@ -54,11 +53,12 @@ class portSniffer:
             if flag == 0:
                 self.open_ports += 1
                 if reservedPortServices.contains_port(port_model.port):
-                    self.print_thread.append_to_message(
+                    PrintThread.shared().append_to_message(
                         "Port {} is open with {} and {}".format(port_model.port, port_model.description,
                                                                 self.port_data_model.__str__()))
                 else:
-                    self.print_thread.append_to_message("Port {} is open {}".format(port_model.port, self.port_data_model.__str__()))
+                    PrintThread.shared().append_to_message(
+                        "Port {} is open {}".format(port_model.port, self.port_data_model.__str__()))
             # else:
             #     self.print_thread.append_to_message("Port {} is not open".format(port_model.port))
             sock.close()

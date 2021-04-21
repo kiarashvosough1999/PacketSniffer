@@ -1,7 +1,7 @@
 import json
 import sys
 from enum import Enum
-from DataModels.portModel import portModel
+from DataModels.PortModel import portModel
 
 
 class reservedPortServices(Enum):
