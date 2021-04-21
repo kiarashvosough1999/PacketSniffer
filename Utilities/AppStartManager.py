@@ -1,8 +1,8 @@
 import socket
 import sys
 from DataModels.PortScanningModel import PortScanningModel
-from Utilities.MyExceptions import MyExeption
-from Utilities.ThreadingUtilities import ThreadingUtilities
+from Utilities.MyExceptions import MyException
+from Utilities.Threading.ThreadingUtilities import ThreadingUtilities
 from Utilities.ValidationManager import ValidationManager
 from portSniffer import portSniffer
 import argparse
@@ -16,7 +16,7 @@ class AppStartManager:
         self.max_thread = 0
 
     def start(self):
-        self.max_thread = ThreadingUtilities.start_new_procces_to_get_max_threads()
+        self.max_thread = ThreadingUtilities.start_new_process_to_get_max_threads()
         if self.max_thread <= 0:
             print('There is not enough resourses to run the program,'
                   ' try to free more ram and try again')
@@ -86,7 +86,7 @@ class AppStartManager:
                                                          mWaiting_time,
                                                          mSniffing_mode,
                                                          mIP_version)
-            except MyExeption as e:
+            except MyException as e:
                 print(e.message)
                 exit(0)
             except socket.gaierror or socket.error:
@@ -147,7 +147,7 @@ class AppStartManager:
                                                              mSniffing_mode,
                                                              mIP_version)
                     break
-                except MyExeption as e:
+                except MyException as e:
                     print(e.message)
                     continue
                 except socket.gaierror or socket.error:

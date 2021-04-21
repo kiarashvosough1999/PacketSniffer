@@ -1,5 +1,6 @@
 from DataModels.Constant import Constant
 from Ping.CheckSumUtilities import CheckSumFactory
+from Utilities import TimeManager
 from Utilities.Threading.PrintThread import PrintThread
 from functools import reduce
 
@@ -73,6 +74,13 @@ class PingResponseModel:
 
     def get_received_packet(self):
         return len(self.delays)
+
+    def save_delay(self, sending_time,  receive_time):
+        delay = TimeManager.timeManager.get_delay_in_sec(sending_time,receive_time)
+        self.delays.append(delay)
+
+    def set_next_packet_model(self,packet_model):
+        self.packet_model = packet_model
 
     def get_analyzes(self):
         max_rtt = max(self.delays) if self.delays else 0.0
