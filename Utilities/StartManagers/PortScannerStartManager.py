@@ -1,36 +1,28 @@
+import argparse
 import socket
 import sys
 from DataModels.PortScanningModel import PortScanningModel
 from Utilities.MyExceptions import MyException
-from Utilities.Threading.ThreadingUtilities import ThreadingUtilities
+from Utilities.StartManagers.StartManager import StartManager
 from Utilities.ValidationManager import ValidationManager
 from portSniffer import portSniffer
-import argparse
 
 
-class AppStartManager:
+class PortScannerStartManager(StartManager):
 
-    def __init__(self):
-        self.sys_argv = sys.argv
+    def __init__(self, run_mode):
+        super().__init__(run_mode)
         self.port_data_model = None
         self.max_thread = 0
 
-    def start(self):
-        self.max_thread = ThreadingUtilities.start_new_process_to_get_max_threads()
-        if self.max_thread <= 0:
-            print('There is not enough resourses to run the program,'
-                  ' try to free more ram and try again')
-        print('You can run {} threads concurently,'
-              ' do not try to hit the limit unless there is no guarantee to work '
-              'properly'.format(self.max_thread))
-        if len(self.sys_argv) > 1:
-            self.run_on_terminal()
-        else:
-            self.run_in_()
-
-    def run_on_terminal(self):
+    def run_in_non_interactive(self):
         try:
             my_parser = argparse.ArgumentParser(description='Port Sniffer')
+
+            my_parser.add_argument('AppMode',
+                                   metavar='appmode',
+                                   type=str,
+                                   help='enter your App mode')
 
             my_parser.add_argument('Address',
                                    metavar='address',
@@ -63,7 +55,7 @@ class AppStartManager:
             my_parser.add_argument('-ep',
                                    '--endport',
                                    type=str,
-                                   help='end port interval', default= '')
+                                   help='end port interval', default='')
 
             args = my_parser.parse_args()
             try:
@@ -88,7 +80,7 @@ class AppStartManager:
                                                          mIP_version)
             except MyException as e:
                 print(e.message)
-                exit(0)
+                sys.exit(0)
             except socket.gaierror or socket.error:
                 print('there is something wrong with your network connection try again later.')
                 print("Hostname Could Not Be Resolved !!!!")
@@ -99,7 +91,7 @@ class AppStartManager:
             sys.exit(0)
         self.start_port_sniffing()
 
-    def run_in_(self):
+    def run_in_interactive(self):
         try:
             print('enter your input ->')
             while True:
