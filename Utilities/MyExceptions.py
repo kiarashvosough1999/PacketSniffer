@@ -6,7 +6,6 @@ class ExceptionAction(Enum):
     continue_exec = 1
     break_exec = 2
     no_action = -1
-    casting_error = 10
     host_not_support_ipv6 = 21
 
 
@@ -19,6 +18,7 @@ class MyException(Exception):
     socket_create_failed = -6
     packet_not_recieved = -7
     none = 0
+    casting_error = -10
 
     def __init__(self, message, action=ExceptionAction.no_action, error_type=0):
         self.message = message
@@ -27,6 +27,10 @@ class MyException(Exception):
 
     def __str__(self):
         return self.message
+
+    def do_action2(self):
+        if self.action == ExceptionAction.exit_0:
+            exit(0)
 
     def do_action(self):
         if self.error_type == MyException.failure:
