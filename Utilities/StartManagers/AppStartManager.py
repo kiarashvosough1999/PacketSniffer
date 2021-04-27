@@ -31,14 +31,22 @@ class AppStartManager(StartManager):
         self.detect_app_mode()
 
     def detect_app_mode(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument('AppMode',
-                            metavar='appmode',
-                            type=str,
-                            help='you should at least choose your app mode')
-        parsed = parser.parse_args()
-        app_mode = ValidationManager.validate_app_mode(parsed.AppMode)
+        # parser = argparse.ArgumentParser()
+        # parser.add_argument('AppMode',
+        #                     metavar='appmode',
+        #                     type=str,
+        #                     help='you should at least choose your app mode')
+        # parsed = parser.parse_args()
+        global app_mode
+        if len(sys.argv) > 2:
+            app_mode = sys.argv[1]
+        else:
+            print('you should at least choose your app mode')
+            exit(0)
+        app_mode = ValidationManager.validate_app_mode(app_mode)
         if app_mode == AppMode.port_scanner:
             PortScannerStartManager(self.run_mode).start()
         elif app_mode == AppMode.ping:
-            PingStartManager(self.run_mode).start()
+            st = PingStartManager(self.run_mode)
+            st.max_thread = self.max_thread
+            st.start()

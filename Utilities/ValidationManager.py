@@ -55,17 +55,47 @@ class ValidationManager:
                 return mAddress
             else:
                 mAddress = socket.getaddrinfo(address,
-                                             port=80,
-                                             family=socket.AF_INET6,
-                                             proto=socket.IPPROTO_TCP)
+                                              port=80,
+                                              family=socket.AF_INET6,
+                                              proto=socket.IPPROTO_TCP)
                 if not mAddress[0][4][0]:
                     raise MyException('the host you requested for does not support ipV6',
-                                     ExceptionAction.host_not_support_ipv6)
+                                      ExceptionAction.host_not_support_ipv6)
                 return mAddress[0][4][0]
         except socket.gaierror:
             raise socket.gaierror
         except socket.error:
             raise socket.error
+
+    @staticmethod
+    def validate_ping_userInputs(max_thread, addreses, waiting_time, packet_size):
+        pure_addresses = []
+        if waiting_time < 1000:
+            raise MyException('waiting time must be greater than 1000, the unit is millisecond',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+        if packet_size <= 0:
+            raise MyException('waiting time must be greater than 0',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+        for addr in addreses:
+            try:
+                ValidationManager.get_ip_from_address(address=addr)
+                pure_addresses.append(addr)
+            except socket.gaierror:
+                print("ping: cannnot resolve {}: Unknown host, "
+                      "this host will be removed from ping operation".format(addr))
+                continue
+        if len(pure_addresses) > 0:
+            raise MyException('there is no valid host left to be pinged',
+                              error_type=MyException.invalid_input,
+                              action=ExceptionAction.exit_0)
+        elif len(pure_addresses) < max_thread:
+            raise MyException('you\'ve reached the maximum number of host to be pinged,'
+                              ' try again with the limit number prompted at the first for maximum thread',
+                              error_type=MyException.invalid_input,
+                              action=ExceptionAction.exit_0)
+        return pure_addresses, waiting_time, packet_size
 
     @staticmethod
     def validate_userInput(address, thread_num, waiting_time, start, end, sniffing_mode, ip_version, max_thread):

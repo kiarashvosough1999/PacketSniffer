@@ -20,7 +20,7 @@ class PingInputsModel:
         for addr in self.host_addresses:
             try:
                 address = ValidationManager.get_ip_from_address(address=addr)
-                packet = packetModel(address,
+                packet = packetModel(addr,
                                      self.packet_size,
                                      waiting_time=self.waiting_time,
                                      address=addr)

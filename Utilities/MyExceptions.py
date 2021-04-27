@@ -19,6 +19,7 @@ class MyException(Exception):
     packet_not_recieved = -7
     none = 0
     casting_error = -10
+    invalid_input = -20
 
     def __init__(self, message, action=ExceptionAction.no_action, error_type=0):
         self.message = message
