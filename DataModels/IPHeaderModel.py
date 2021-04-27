@@ -1,7 +1,7 @@
 import socket
 import struct
 from DataModels.Constant import Constant
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 
 
 class ipHeaderModel:

@@ -1,7 +1,7 @@
 import select
 import socket
-from Utilities.ExceptionManager import ExceptionManager
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.ExceptionManager import ExceptionManager
+from Utilities.Exception.MyExceptions import MyException
 
 
 class socketManager:

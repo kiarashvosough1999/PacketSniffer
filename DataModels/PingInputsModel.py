@@ -1,5 +1,5 @@
 from DataModels.PacketModel import packetModel
-from Utilities.MyExceptions import MyException, ExceptionAction
+from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 from Utilities.ValidationManager import ValidationManager
 
 

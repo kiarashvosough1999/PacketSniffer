@@ -1,7 +1,7 @@
 from socket import htons
 from DataModels.Enums.ByteOrder import byteOrder
 from DataModels.Constant import Constant
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 
 
 class CheckSumFactory:

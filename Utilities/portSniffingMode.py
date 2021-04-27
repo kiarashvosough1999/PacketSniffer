@@ -1,5 +1,4 @@
 from enum import Enum
-from Utilities.MyExceptions import MyException
 
 
 class portSniffingMode(Enum):

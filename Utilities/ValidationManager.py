@@ -2,7 +2,7 @@ import socket
 
 from DataModels.Enums.AppMode import AppMode
 from DataModels.customRange import customRange
-from Utilities.MyExceptions import MyException, ExceptionAction
+from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 from Utilities.portSniffingMode import portSniffingMode
 from Utilities.UseFullFunction import safe_cast
 

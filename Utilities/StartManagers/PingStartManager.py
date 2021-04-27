@@ -3,9 +3,8 @@ import sys
 
 from DataModels.PingInputsModel import PingInputsModel
 from Ping.Ping import ping
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 from Utilities.StartManagers.StartManager import StartManager
-from Utilities.UseFullFunction import safe_cast
 from Utilities.ValidationManager import ValidationManager
 
 

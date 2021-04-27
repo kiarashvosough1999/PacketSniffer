@@ -1,4 +1,4 @@
-from Utilities.MyExceptions import MyException, ExceptionAction
+from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 
 
 def safe_cast(val, to_type, error_message):
