@@ -1,4 +1,6 @@
 import socket
+
+from DataModels.Enums.AppMode import AppMode
 from DataModels.customRange import customRange
 from Utilities.MyExceptions import MyException, ExceptionAction
 from Utilities.portSniffingMode import portSniffingMode
@@ -6,6 +8,16 @@ from Utilities.UseFullFunction import safe_cast
 
 
 class ValidationManager:
+
+    @staticmethod
+    def validate_app_mode(mode):
+        try:
+            int_mode = safe_cast(mode, int, 'can not detect app mode from input')
+            app_mode = AppMode.app_mode_from_int(int_mode)
+            return app_mode
+        except MyException as error:
+            print(error.message)
+            error.do_action2()
 
     @staticmethod
     def get_ip_from_address(address):
