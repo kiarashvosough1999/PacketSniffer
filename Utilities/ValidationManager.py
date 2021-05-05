@@ -74,7 +74,7 @@ class ValidationManager:
             raise MyException('waiting time must be greater than 1000, the unit is millisecond',
                               action=ExceptionAction.exit_0,
                               error_type=MyException.invalid_input)
-        if packet_size <= 0:
+        if packet_size < 0:
             raise MyException('waiting time must be greater than 0',
                               action=ExceptionAction.exit_0,
                               error_type=MyException.invalid_input)

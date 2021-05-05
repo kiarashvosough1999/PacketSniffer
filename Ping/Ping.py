@@ -68,7 +68,8 @@ class ping:
                 if sock:
                     sock.close()
                 if error.error_type is MyException.ping_failed:
-                    print(error.message)
+                    # print(error.message)
+                    response.print_sending_error()
                     continue
                 elif error.error_type is MyException.socket_create_failed:
                     print(error.message)
@@ -101,7 +102,7 @@ class ping:
                               action=ExceptionAction.exit_0,
                               error_type=MyException.failure)
         if not elapsed_time:
-            raise MyException('sending ping failed',
+            raise MyException('sending packet failed',
                               error_type=MyException.ping_failed)
         return elapsed_time
 
