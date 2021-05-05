@@ -2,7 +2,7 @@ import argparse
 import socket
 import sys
 from DataModels.PortScanningModel import PortScanningModel
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 from Utilities.StartManagers.StartManager import StartManager
 from Utilities.ValidationManager import ValidationManager
 from portSniffer import portSniffer

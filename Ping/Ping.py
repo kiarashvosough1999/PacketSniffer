@@ -3,7 +3,7 @@ from threading import Thread
 from time import sleep
 from DataModels.PacketResponseModel import PacketResponseModel
 from DataModels.PingResponseModel import PingResponseModel
-from Utilities.MyExceptions import MyException, ExceptionAction
+from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 from DataModels.ICMPHeader import icmpHeader
 from DataModels.IPHeaderModel import ipHeaderModel
 from Utilities.SocketManager import socketManager

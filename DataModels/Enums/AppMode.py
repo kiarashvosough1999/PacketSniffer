@@ -1,6 +1,6 @@
 from enum import Enum
 
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 
 
 class AppMode(Enum):

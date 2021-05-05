@@ -1,5 +1,5 @@
 import sys
-from Utilities.MyExceptions import MyException
+from Utilities.Exception.MyExceptions import MyException
 
 
 class ExceptionManager:
