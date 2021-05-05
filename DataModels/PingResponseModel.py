@@ -59,6 +59,20 @@ class PingResponseModel:
                                                    Constant.Formatting.Reset +
                                                    Constant.Color.F_Default)
 
+    def print_sending_error(self, message):
+        if not self.packet_model:
+            body = "{} to {}({}) timeout -> seq={}".format(
+                message,
+                self.packet_model.destination_ip_address,
+                self.packet_model.address,
+                self.packet_model.sequence_number
+            )
+            PrintThread.shared().append_to_message(Constant.Formatting.Bold +
+                                                   Constant.Color.F_Red +
+                                                   body +
+                                                   Constant.Formatting.Reset +
+                                                   Constant.Color.F_Default)
+
     def print_not_received(self):
         if not self.packet_model:
             body = "response from {}({}) not received -> seq={}".format(
@@ -75,11 +89,11 @@ class PingResponseModel:
     def get_received_packet(self):
         return len(self.delays)
 
-    def save_delay(self, sending_time,  receive_time):
-        delay = TimeManager.timeManager.get_delay_in_sec(sending_time,receive_time)
+    def save_delay(self, sending_time, receive_time):
+        delay = TimeManager.timeManager.get_delay_in_sec(sending_time, receive_time)
         self.delays.append(delay)
 
-    def set_next_packet_model(self,packet_model):
+    def set_next_packet_model(self, packet_model):
         self.packet_model = packet_model
 
     def get_analyzes(self):
