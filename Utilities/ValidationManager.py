@@ -86,11 +86,11 @@ class ValidationManager:
                 print("ping: cannnot resolve {}: Unknown host, "
                       "this host will be removed from ping operation".format(addr))
                 continue
-        if len(pure_addresses) > 0:
+        if len(pure_addresses) <= 0:
             raise MyException('there is no valid host left to be pinged',
                               error_type=MyException.invalid_input,
                               action=ExceptionAction.exit_0)
-        elif len(pure_addresses) < max_thread:
+        elif len(pure_addresses) > max_thread:
             raise MyException('you\'ve reached the maximum number of host to be pinged,'
                               ' try again with the limit number prompted at the first for maximum thread',
                               error_type=MyException.invalid_input,
