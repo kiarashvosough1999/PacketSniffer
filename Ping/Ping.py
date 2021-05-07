@@ -69,7 +69,7 @@ class ping:
                     sock.close()
                 if error.error_type is MyException.ping_failed:
                     # print(error.message)
-                    response.print_sending_error()
+                    response.print_sending_error(error.message)
                     continue
                 elif error.error_type is MyException.socket_create_failed:
                     print(error.message)
