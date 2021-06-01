@@ -90,7 +90,7 @@ class PingResponseModel:
         return len(self.delays)
 
     def save_delay(self, sending_time, receive_time):
-        delay = TimeManager.timeManager.get_delay_in_sec(sending_time, receive_time)
+        delay = TimeManager.TimeManager.get_delay_in_sec(sending_time, receive_time)
         self.delays.append(delay)
 
     def set_next_packet_model(self, packet_model):
