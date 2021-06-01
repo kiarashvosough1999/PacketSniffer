@@ -1,6 +1,7 @@
 import socket
 
 from DataModels.Enums.AppMode import AppMode
+from DataModels.HOPUserInputsModel import HOPUserInputsModel
 from DataModels.customRange import customRange
 from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 from Utilities.portSniffingMode import portSniffingMode
@@ -8,6 +9,54 @@ from Utilities.UseFullFunction import safe_cast
 
 
 class ValidationManager:
+
+    @staticmethod
+    def validate_hop_info(max_ttl,
+                          hop_tries,
+                          packet_size,
+                          waiting_time,
+                          address,
+                          start_port,
+                          start_ttl):
+        if 1 < start_port < 65535:
+            raise MyException('start port must be in range 1..65535',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+        if start_ttl > 1:
+            raise MyException('start ttl must be at least 1',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+        if waiting_time < 1000:
+            raise MyException('waiting time must be greater than 1000, the unit is millisecond',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+        if max_ttl < 10:
+            raise MyException('max ttl is less than enough',
+                              error_type=MyException.invalid_input,
+                              action=ExceptionAction.exit_0)
+        if hop_tries < 3:
+            raise MyException('hop tries is less than enough',
+                              error_type=MyException.invalid_input,
+                              action=ExceptionAction.exit_0)
+        if packet_size < 0:
+            raise MyException('waiting time must be greater than 0',
+                              action=ExceptionAction.exit_0,
+                              error_type=MyException.invalid_input)
+
+        try:
+            addr = ValidationManager.get_ip_from_address(address=address)
+        except socket.gaierror:
+            raise MyException('there is no valid host left to be pinged',
+                              error_type=MyException.invalid_input,
+                              action=ExceptionAction.exit_0)
+        return HOPUserInputsModel(max_ttl=max_ttl,
+                                  hop_tries=hop_tries,
+                                  packet_size=packet_size,
+                                  waiting_time=waiting_time,
+                                  host_address=address,
+                                  host_ipAddress=addr,
+                                  start_port=start_port,
+                                  start_ttl=start_ttl)
 
     @staticmethod
     def validate_app_mode(mode):
