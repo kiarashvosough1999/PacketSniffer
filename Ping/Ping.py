@@ -4,11 +4,11 @@ from time import sleep
 from DataModels.PacketResponseModel import PacketResponseModel
 from DataModels.PingResponseModel import PingResponseModel
 from Utilities.Exception.MyExceptions import MyException, ExceptionAction
-from DataModels.ICMPHeader import icmpHeader
+from DataModels.IcmpHeader import IcmpHeader
 from DataModels.IPHeaderModel import ipHeaderModel
 from Utilities.SocketManager import socketManager
 from Utilities.Threading.ThreadingUtilities import ThreadingUtilities
-from Utilities.TimeManager import timeManager
+from Utilities.TimeManager import TimeManager
 
 
 class ping:
@@ -93,7 +93,7 @@ class ping:
     def send_packet(sock, packet_model):
         # return packet bytearray, and increment sequence number
         packet = packet_model.create_packet()
-        elapsed_time = timeManager.get_time()
+        elapsed_time = TimeManager.get_time()
         # send packet to the destination host
         try:
             z = sock.sendto(packet, (packet_model.destination_ip_address, 1))
@@ -110,7 +110,7 @@ class ping:
 
         timeout = self.ping_inputs_model.get_waiting_time_in_sec()
         while True:
-            time = timeManager(timeout)
+            time = TimeManager(timeout)
             try:
                 # wait for socket receive sth so that we can read it
                 # socketManager.select_socket_with(socket, timeout)
@@ -121,9 +121,9 @@ class ping:
             # get received data from socket
             packet, address = sock.recvfrom(self.ping_inputs_model.icmp_max_recv)
             # get icmp header model from byte array received from socket
-            icmp_header = icmpHeader.get_icmp_header_from_packet(packet, packet_model.pack_format)
+            icmp_header = IcmpHeader.get_icmp_header_from_packet(packet, packet_model.pack_format)
 
-            receive_time = timeManager.get_time()
+            receive_time = TimeManager.get_time()
 
             # if the received packet id is as the same as the packet id that we've sent,
             # then it it desired response

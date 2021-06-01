@@ -1,12 +1,12 @@
 import sys
 from DataModels.Enums.AppMode import AppMode
 from DataModels.Enums.RunMode import RunMode
+from Utilities.StartManagers.HOPStartManager import HOPStartManager
 from Utilities.StartManagers.PingStartManager import PingStartManager
 from Utilities.StartManagers.PortScannerStartManager import PortScannerStartManager
 from Utilities.StartManagers.StartManager import StartManager
 from Utilities.Threading.ThreadingUtilities import ThreadingUtilities
 from Utilities.ValidationManager import ValidationManager
-import argparse
 
 
 class AppStartManager(StartManager):
@@ -49,4 +49,7 @@ class AppStartManager(StartManager):
         elif app_mode == AppMode.ping:
             st = PingStartManager(self.run_mode)
             st.max_thread = self.max_thread
+            st.start()
+        elif app_mode == AppMode.hop:
+            st = HOPStartManager(self.run_mode)
             st.start()

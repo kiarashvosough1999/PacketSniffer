@@ -1,5 +1,7 @@
 import socket
 
+from DataModels.HOPUserInputsModel import HOPUserInputsModel
+from TraceRoute.TraceRouter import TraceRouter
 from Utilities.StartManagers.AppStartManager import AppStartManager
 from Utilities.Threading.PrintThread import PrintThread
 

@@ -1,4 +1,4 @@
-from DataModels.PacketModel import packetModel
+from DataModels.PacketModel import PacketModel
 from Utilities.Exception.MyExceptions import MyException, ExceptionAction
 from Utilities.ValidationManager import ValidationManager
 
@@ -20,7 +20,7 @@ class PingInputsModel:
         for addr in self.host_addresses:
             try:
                 address = ValidationManager.get_ip_from_address(address=addr)
-                packet = packetModel(addr,
+                packet = PacketModel(addr,
                                      self.packet_size,
                                      waiting_time=self.waiting_time,
                                      address=addr)

@@ -1,10 +1,21 @@
 import select
 import socket
+from DataModels.Constant import Constant
 from Utilities.Exception.ExceptionManager import ExceptionManager
 from Utilities.Exception.MyExceptions import MyException
 
 
 class socketManager:
+
+    @staticmethod
+    def get_tcp_icmp_raw_socket(ip_ver=socket.AF_INET, ttl=-1):
+        try:
+            sock = socket.socket(ip_ver, socket.SOCK_RAW, Constant.icmp_code)
+            if ttl != -1:
+                sock.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
+            return sock
+        except socket.error as error:
+            raise ExceptionManager.handle_exception_raw_socket(error=error)
 
     @staticmethod
     def get_tcp_stream_socket(ip_ver=socket.AF_INET):

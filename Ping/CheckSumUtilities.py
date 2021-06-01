@@ -12,6 +12,24 @@ class CheckSumFactory:
         self.low_bytes = None
         self.high_bytes = None
 
+    def get_checksum_for_hop(self):
+        checksum_data = 0
+        counter = 0
+        while counter < self.raw_packet_length:
+            this_val = (self.raw_packet_data[counter + 1]) * 256 + (self.raw_packet_data[counter])
+            checksum_data = checksum_data + this_val
+            checksum_data = checksum_data & 0xffffffff
+            counter = counter + 2
+        if self.raw_packet_length < len(self.raw_packet_data):
+            checksum_data = checksum_data + (self.raw_packet_data[len(self.raw_packet_data) - 1])
+            checksum_data = checksum_data & 0xffffffff
+        checksum_data = (checksum_data >> 16) + (checksum_data & 0xffff)
+        checksum_data = checksum_data + (checksum_data >> 16)
+        res = ~checksum_data
+        res = res & 0xffff
+        res = res >> 8 | (res << 8 & 0xff00)
+        return htons(res)
+
     def get_checksum(self):
         checksum_data = 0
 

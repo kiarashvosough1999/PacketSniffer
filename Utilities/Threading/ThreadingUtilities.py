@@ -12,6 +12,10 @@ class ThreadingUtilities(metaclass=SingletonMeta):
         return ThreadingUtilities()
 
     @staticmethod
+    def wait(second):
+        sleep(second)
+
+    @staticmethod
     def wait_for_threads(threads, should_sleep=0):
         while True:
             maped_thread = map(lambda thread: 0 if thread.is_alive() else 1, threads)
