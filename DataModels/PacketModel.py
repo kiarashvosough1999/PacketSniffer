@@ -1,3 +1,4 @@
+import random
 import socket
 import struct
 import threading
@@ -6,7 +7,7 @@ from Ping.CheckSumUtilities import CheckSumFactory
 from Ping.PaddingFactory import PaddingFactory
 
 
-class packetModel:
+class PacketModel:
 
     def __init__(self,
                  destination_ip_address,
@@ -33,8 +34,14 @@ class packetModel:
             self._id = threading.current_thread().native_id & 0xFFFF
         return self._id
 
-    def create_packet(self):
+    def get_packet_id(self):
+        return self._id
 
+    def generate_random_id(self):
+        self._id = int(random.random() * 65535)
+        return self._id
+
+    def create_packet(self):
         checksum = 0
 
         header = struct.pack(
@@ -49,3 +56,10 @@ class packetModel:
         )
         self.sequence_number += 1
         return header + data
+
+    def create_packet_for_hop(self):
+        header = struct.pack('bbHHh', self.icmp, 0, 0, self._id, 1)
+        dummy_data = ''.encode('utf-8')
+        checksum = CheckSumFactory(header + dummy_data).get_checksum_for_hop()
+        header = struct.pack('bbHHh', self.icmp, 0, checksum, self._id, 1)
+        return header + dummy_data
