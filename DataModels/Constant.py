@@ -1,3 +1,4 @@
+import socket
 import sys
 from DataModels.Enums.ByteOrder import byteOrder
 
@@ -8,8 +9,9 @@ class Constant:
     hex_16bit_int = 0xffff
     hex_32bit_int = 0xffffffff
     icmp_header_format = "!BBHHH"
+    icmp_header_format2 = "bbHHh"
     ip_header_format = "!BBHHHBBHII"
-
+    icmp_code = socket.getprotobyname('icmp')
     bytes_order = byteOrder.little_endian if sys.byteorder == "little" else byteOrder.big_endian
 
     class Base:
