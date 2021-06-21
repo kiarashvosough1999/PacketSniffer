@@ -6,6 +6,7 @@ from Utilities.Exception.MyExceptions import MyException
 class AppMode(Enum):
     port_scanner = 1
     ping = 2
+    arp = 4
     hop = 3
 
     @staticmethod
@@ -16,5 +17,7 @@ class AppMode(Enum):
             return AppMode.ping
         elif input == 3:
             return AppMode.hop
+        elif input == 4:
+            return AppMode.arp
         else:
             raise MyException('app mode does not exist')
