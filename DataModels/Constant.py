@@ -13,6 +13,8 @@ class Constant:
     ip_header_format = "!BBHHHBBHII"
     icmp_code = socket.getprotobyname('icmp')
 
+    ifconfig_re_expression = "ip route|sed '/via/d' |sed '/docker/d'|sed '/linkdown/d'|sed '/src /!d' | sed '/dev /!d' |sed '2,$d'"
+
     big_byte_order = "big"
 
     socket = "socket"
