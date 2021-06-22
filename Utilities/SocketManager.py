@@ -8,6 +8,27 @@ from Utilities.Exception.MyExceptions import MyException
 class socketManager:
 
     @staticmethod
+    def get_packet_socket(interface):
+        if not interface:
+            raise MyException(message="a interface should be picked")
+        interface = interface[0:15]
+        sock = None
+        try:
+            sock = socket.socket(family=socket.AF_PACKET,
+                                 type=socket.SOCK_RAW,
+                                 proto=0)
+            sock.setblocking(False)
+            try:
+                sock.bind((interface, socket.SOCK_RAW))
+            except OSError:
+                raise MyException(message="error when attempting to bind")
+        except socket.error as error:
+            if sock:
+                sock.close()
+            raise ExceptionManager.handle_exception_raw_socket(error=error)
+        return sock
+
+    @staticmethod
     def get_tcp_icmp_raw_socket(ip_ver=socket.AF_INET, ttl=-1):
         try:
             sock = socket.socket(ip_ver, socket.SOCK_RAW, Constant.icmp_code)

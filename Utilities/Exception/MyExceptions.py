@@ -20,6 +20,7 @@ class MyException(Exception):
     none = 0
     casting_error = -10
     invalid_input = -20
+    use_default_domain = -15
 
     def __init__(self, message, action=ExceptionAction.no_action, error_type=0):
         self.message = message

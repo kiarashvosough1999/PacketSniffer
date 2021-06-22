@@ -1,6 +1,6 @@
-import socket
 import sys
 from DataModels.Enums.ByteOrder import byteOrder
+import socket
 
 
 class Constant:
@@ -12,6 +12,21 @@ class Constant:
     icmp_header_format2 = "bbHHh"
     ip_header_format = "!BBHHHBBHII"
     icmp_code = socket.getprotobyname('icmp')
+
+    ifconfig_re_expression = "ip route|sed '/via/d' |sed '/docker/d'|sed '/linkdown/d'|sed '/src /!d' | sed '/dev /!d' |sed '2,$d'"
+
+    big_byte_order = "big"
+
+    socket = "socket"
+    s256 = "256s"
+
+    device_flag = b"\x00\x02"
+    ARP_detail = "2s2s1s1s2s6s4s6s4s"
+    ARP_Header_format = "!6s6s2s"
+    ARP_flag = b"\x08\x06"
+    SIOCGIFADDR = 0x8915  # C flag to obtain ip address of the system
+    SIOCSIFHWADDR = 0x8927  # C flag to obtain mac address of the system
+
     bytes_order = byteOrder.little_endian if sys.byteorder == "little" else byteOrder.big_endian
 
     class Base:
