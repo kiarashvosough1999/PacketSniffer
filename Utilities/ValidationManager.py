@@ -1,9 +1,11 @@
 import socket
-
+from ipaddress import IPv4Network, IPv4Address
+from DataModels.ARPRequestModel import ARPRequestModel
 from DataModels.Enums.AppMode import AppMode
 from DataModels.HOPUserInputsModel import HOPUserInputsModel
 from DataModels.customRange import customRange
 from Utilities.Exception.MyExceptions import MyException, ExceptionAction
+from Utilities.SystemInfo import SystemInfo
 from Utilities.portSniffingMode import portSniffingMode
 from Utilities.UseFullFunction import safe_cast
 
@@ -115,6 +117,24 @@ class ValidationManager:
             raise socket.gaierror
         except socket.error:
             raise socket.error
+
+    @staticmethod
+    def validate_arp_user_inputs(start_ip, end_ip, waiting_time):
+        domain, interface = SystemInfo.get_domain_and_interface()
+        if not (start_ip and end_ip) and interface:  # no value from input
+            return interface, ARPRequestModel(ip_list=IPv4Network(domain),
+                                   timeout=waiting_time)
+        elif start_ip and not end_ip and interface:  # mask
+            return interface, ARPRequestModel(ip_list=IPv4Network(start_ip),
+                                   timeout=waiting_time)
+        elif start_ip and end_ip and interface:  # start and end ip provided by user
+            return interface, ARPRequestModel(ip_list=[IPv4Address(start_ip),
+                                            IPv4Address(end_ip)],
+                                   timeout=waiting_time)
+        else:
+            raise MyException(message="there was no valid input or"
+                                      " default value for this mode try again",
+                              action=ExceptionAction.exit_0)
 
     @staticmethod
     def validate_ping_userInputs(max_thread, addreses, waiting_time, packet_size):
