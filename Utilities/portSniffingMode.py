@@ -1,4 +1,5 @@
 from enum import Enum
+from Utilities.Exception.MyExceptions import MyException
 
 
 class portSniffingMode(Enum):
@@ -14,4 +15,4 @@ class portSniffingMode(Enum):
             return portSniffingMode.reserved_port
         elif from_string == '3':
             return portSniffingMode.application_port
-        raise MyExeption('Sniffing mode not found')
+        raise MyException('Sniffing mode not found')

@@ -10,10 +10,10 @@ from portSniffer import portSniffer
 
 class PortScannerStartManager(StartManager):
 
-    def __init__(self, run_mode):
+    def __init__(self, run_mode, max_thread):
         super().__init__(run_mode)
         self.port_data_model = None
-        self.max_thread = 0
+        self.max_thread = max_thread
 
     def run_in_non_interactive(self):
         try:

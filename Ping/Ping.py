@@ -83,7 +83,7 @@ class ping:
                 elif error.error_type is (MyException.corupted_icmp_header or MyException.corupted_ip_header):
                     continue
                 elif error.error_type is MyException.failure:
-                    print(error.message)
+                    # print(error.message)
                     error.do_action()
                     return
 

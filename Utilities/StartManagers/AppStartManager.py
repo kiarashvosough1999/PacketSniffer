@@ -50,7 +50,7 @@ class AppStartManager(StartManager):
         app_mode = ValidationManager.validate_app_mode(app_mode)
         if app_mode == AppMode.port_scanner:
             self.check_for_max_thread()
-            PortScannerStartManager(self.run_mode).start()
+            PortScannerStartManager(self.run_mode,self.max_thread).start()
         elif app_mode == AppMode.ping:
             self.check_for_max_thread()
             st = PingStartManager(self.run_mode)
